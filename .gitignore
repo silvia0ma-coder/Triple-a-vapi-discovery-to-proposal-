@@ -1,0 +1,17 @@
+# Secrets and local config
+.env
+*.env
+!.env.example
+*.pem
+*.key
+credentials*.json
+
+# Raw n8n exports can contain pinned execution data (PII). Commit only sanitized files.
+*-with-pindata.json
+*.raw.json
+
+# Media / OS
+*.wav
+*.mp3
+.DS_Store
+Thumbs.db

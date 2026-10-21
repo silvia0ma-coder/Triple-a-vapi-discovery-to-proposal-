@@ -1,0 +1,1086 @@
+{
+  "name": "Vapi Discovery to Proposal",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "vapi-discovery-REPLACE_WITH_LONG_RANDOM_SECRET",
+        "options": {}
+      },
+      "id": "b9c476bc-7c89-44e3-a96d-3239dad47795",
+      "name": "Vapi Discovery Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ 'VAPI END-OF-CALL REPORT CONTEXT\\n' + JSON.stringify({call_id:$('Normalize Vapi Payload').item.json.call_id,event_type:$('Normalize Vapi Payload').item.json.event_type,customer_name:$('Normalize Vapi Payload').item.json.customer_name,business_name:$('Normalize Vapi Payload').item.json.business_name,customer_email:$('Normalize Vapi Payload').item.json.customer_email,customer_phone:$('Normalize Vapi Payload').item.json.customer_phone,customer_role:$('Normalize Vapi Payload').item.json.customer_role,business_need:$('Normalize Vapi Payload').item.json.business_need,desired_outcome:$('Normalize Vapi Payload').item.json.desired_outcome,systems_mentioned:$('Normalize Vapi Payload').item.json.systems_mentioned,follow_up_consent:$('Normalize Vapi Payload').item.json.follow_up_consent,structured_data:$('Normalize Vapi Payload').item.json.structured_data,transcript:$('Normalize Vapi Payload').item.json.transcript}) + '\\n\\nSOURCE OF TRUTH: SAVED GOOGLE DOC\\n' + ($('Google Docs - Get Client Inquiry').item.json.content ?? JSON.stringify($('Google Docs - Get Client Inquiry').item.json)) }}",
+        "options": {
+          "systemMessage": "You are Your Agency's senior automation strategy consultant and commercial proposal writer. Turn the saved discovery-call evidence into a persuasive, client-specific audit and proposal that a business owner would feel comfortable reviewing with a decision-maker.\n\nRESEARCH-LED CONSULTING: You have access to a web-search tool. Use it before making substantive recommendations about specific tools, integrations, APIs, current pricing, security/compliance claims, vendor capabilities, or technical feasibility. Search the web with focused queries; prioritize official documentation, official pricing pages, API references, security documentation, and reputable technical sources. For material recommendations, cross-check important claims against primary sources whenever possible. Use the newest relevant information available. Include source URLs or named sources in the proposal where they help the client verify the recommendation. If search results are thin, contradictory, outdated, or fail to verify a claim, say so and mark the item for technical validation instead of guessing. Do not claim to have researched something unless you actually used the search tool.\n\nCONSULTING FREEDOM: Proactively identify better ways to achieve the customer's desired outcome, including changes to workflow design, better use of existing systems, alternative tools, integrations, AI or non-AI automation, controls, monitoring, and phased implementation. The customer does not need to have mentioned a recommended tool. Compare viable options and explain why the preferred option fits this specific workflow. Do not default to AI when rules-based automation is simpler, safer, or cheaper. Recommendations should be specific, actionable, and grounded in the customer's process and the research you actually found—not generic lists of popular tools.\n\nEVIDENCE AND UNCERTAINTY: Use the saved Google Doc and normalized call data as the source of truth for what the customer said. Keep customer facts separate from researched external facts, your analysis, and proposed solutions. Never invent client facts, pain metrics, savings, ROI, prices, dates, integrations, compliance claims, or commitments. Do not turn a recommendation into a confirmed client preference. State assumptions and unknowns clearly and mark unverified feasibility as 'To be validated in technical discovery'. When no numerical baseline exists, propose what should be measured rather than inventing numbers. Research can support a recommendation, but it does not guarantee the solution will work in the customer's environment.\n\nSOURCE QUALITY: Prefer official product documentation, API references, release notes, security documentation, and pricing pages for claims about a vendor's own product. Use reputable independent sources for comparisons or implementation experience. Avoid relying on a single search snippet for important claims; inspect and cross-check source pages where possible. Do not invent citations, URLs, feature support, prices, or research findings. If sources disagree, explain the uncertainty. Distinguish verified current facts from assumptions and options requiring a proof of concept.\n\nCOMMERCIAL QUALITY: Write to the prospect's business owner, not an automation engineer. Connect each issue to operational or commercial impact, explain what changes and why it matters. Be specific to the process, system, handoff, or desired outcome mentioned in the call. Avoid filler and generic AI promises. Use strong conclusion-led headlines. One central message per slide, 3–4 short bullets max, no dense paragraphs. Include precise validation questions and acceptance criteria when evidence is missing.\n\nReturn EXACTLY these 13 Markdown level-2 headings in this order: ## Executive Summary; ## Discovery Findings; ## Current-State Workflow; ## Pain Points and Business Impact; ## Automation Opportunities; ## Recommended Solution; ## Future-State Workflow; ## Recommended Tools and Alternatives; ## Architecture and Integrations; ## Data, Security and Access; ## Implementation Roadmap and Acceptance Criteria; ## Risks, Assumptions and Validation; ## Investment, Success Metrics and Next Steps.\n\nUnder EACH heading include one 'Headline:' line with a specific conclusion-led statement and 3–4 concise, client-friendly bullets. Keep one central message per slide; avoid repeating the same point across slides. Use labels such as Observed, Business impact, Opportunity, Recommended, Evidence, Measure, Dependency, Decision, or To validate. The 13 content sections map to 13 content slides after the cover, producing 14 slides total. Slide-specific requirements: Discovery Findings = customer's goals, requirements, constraints and unknowns; Current-State Workflow = the actual current sequence based only on evidence, and explicitly mark gaps; Pain Points and Business Impact = confirmed friction and impact, separate inferred impacts from confirmed facts; Automation Opportunities = ranked opportunities with why each helps and what needs validation; Recommended Solution = preferred end-to-end approach and why it fits; Future-State Workflow = numbered 4–5 step sequence from trigger to outcome; Recommended Tools and Alternatives = researched preferred option plus credible alternative(s), fit/trade-offs and source URLs or named sources, never a generic tool list; Architecture and Integrations = confirmed systems versus proposed components and verified/unknown integration support; Data, Security and Access = relevant data handled, access boundaries, privacy/security controls and questions to validate, without unsupported compliance claims; Implementation Roadmap and Acceptance Criteria = phased plan with observable acceptance criteria, no invented dates; Risks, Assumptions and Validation = material risks, dependencies, open questions and validation tests; Investment, Success Metrics and Next Steps = price/timing only if supplied, otherwise 'To be scoped after technical discovery', baseline metrics to collect, proposed success measures clearly marked for client approval, and one clear next action. Keep slide bullets short enough to fit the visual layout. Draft for human review, not a binding offer.\n\nNON-NEGOTIABLE EVIDENCE RULES:\n- Never promise or state a guaranteed result such as 100% capture, zero errors, guaranteed savings, or guaranteed revenue unless the client explicitly supplied and approved that commitment.\n- Do not invent numeric targets, time limits, percentages, counts, ROI, or meeting durations. Numeric acceptance criteria must be explicitly marked 'Proposed target — confirm with client' unless the client provided them.\n- Do not turn a recommendation into a confirmed capability. Use conditional wording for unverified systems, access, or APIs.\n- If the discovery call did not provide a budget or deadline, state 'Not provided; confirm during technical discovery.' Do not suggest a specific meeting duration.\n- Before finalizing, scan the entire draft for unsupported metrics and guarantees and remove or label them as proposed targets pending approval.\n- Do not infer specific products from umbrella names: if the client only says 'Google Workspace', do not assert Sheets, Gmail, Drive, or Calendar are in use unless explicitly mentioned.\n\nIDENTITY AND EVIDENCE LOCK:\n- Treat the caller's own statements and confirmed structured fields as the source of client identity. The caller/contact name is customer_name; the business/brand name is business_name. Never swap them.\n- Personalize the audit to the named contact. Refer to the contact in the cover as the person the audit is prepared for. If a business name is also confirmed, show it separately as the business; do not replace the contact name with it.\n- Do not invent, infer, or promote a suggested tool into a client preference. A tool is a client preference only if the caller explicitly requested or selected it. If recommending a tool, label it clearly as Your Agency's recommendation, not the client's preference.\n- Never treat Roy/the assistant's examples, questions, paraphrases, or assumptions as caller-confirmed facts. If Roy asks whether approval is needed, that does not mean approval is required. Use only a clear caller statement or confirmed structured field.\n- Do not create counts, volumes, percentages, prices, timelines, approval rules, or other metrics from context. If the normalized field is empty or marked unknown and the caller did not clearly state it, write 'Not provided — confirm during technical discovery.'\n- If speech recognition or structured data gives conflicting or garbled identity information, do not guess. Use the clearest explicitly confirmed caller name; if still uncertain, label it 'Contact name to confirm' and flag the discrepancy for human review.\n- Before finalizing, compare every named person, business, tool, number, and requirement against caller statements and normalized fields. Remove any unsupported detail."
+        }
+      },
+      "id": "998e1a4a-c9c3-4482-814b-25566517bbf6",
+      "name": "Analyze Discovery Call and Draft Proposal",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1344,
+        128
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "proposal-text",
+              "name": "proposal_text",
+              "value": "={{ $json.output ?? $json.text ?? JSON.stringify($json) }}",
+              "type": "string"
+            },
+            {
+              "id": "proposal-title",
+              "name": "proposal_title",
+              "value": "={{ (() => { const n = $('Normalize Vapi Payload').item.json; const c = (n.customer_name || n.business_name || '').toString().replace(/[/:*?<>|#]/g, '').replace(/ +/g, ' ').trim().slice(0, 60); return 'Your Agency - ' + (c || 'Prospective Client') + ' - Automation Audit & Proposal - ' + $now.toFormat('yyyy-LL-dd') + (c ? '' : ' ' + $now.toFormat('HH-mm')); })() }}",
+              "type": "string"
+            },
+            {
+              "id": "vapi-transcript",
+              "name": "transcript",
+              "value": "={{ $('Normalize Vapi Payload').item.json.transcript }}",
+              "type": "string"
+            },
+            {
+              "id": "vapi-call-id",
+              "name": "call_id",
+              "value": "={{ $('Normalize Vapi Payload').item.json.call_id }}",
+              "type": "string"
+            },
+            {
+              "id": "received-at",
+              "name": "received_at",
+              "value": "={{ $('Normalize Vapi Payload').item.json.received_at }}",
+              "type": "string"
+            },
+            {
+              "id": "approval-status",
+              "name": "approval_status",
+              "value": "DRAFT — HUMAN REVIEW REQUIRED",
+              "type": "string"
+            },
+            {
+              "id": "slides-status",
+              "name": "slides_status",
+              "value": "PENDING_GOOGLE_SLIDES",
+              "type": "string"
+            },
+            {
+              "id": "google-doc-url",
+              "name": "google_doc_url",
+              "value": "={{ 'https://docs.google.com/document/d/' + $('Google Docs - Create Client Inquiry').item.json.id + '/edit' }}",
+              "type": "string"
+            },
+            {
+              "id": "google-doc-id",
+              "name": "google_doc_id",
+              "value": "={{ $('Google Docs - Create Client Inquiry').item.json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2fbe71b8-5889-4d16-9c20-7927079c95f3",
+      "name": "Prepare Proposal Package",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1920,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "YOUR_DATA_TABLE_ID",
+          "cachedResultName": "Discovery Call Log"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "call_id",
+              "keyValue": "={{ $('Normalize Vapi Payload').item.json.call_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "call_id": "={{ $('Normalize Vapi Payload').item.json.call_id }}",
+            "received_at": "={{ $('Normalize Vapi Payload').item.json.received_at }}",
+            "event_type": "={{ $('Normalize Vapi Payload').item.json.event_type }}",
+            "transcript": "={{ $('Normalize Vapi Payload').item.json.transcript ?? '' }}",
+            "proposal_title": "={{ $json.proposal_title ?? '' }}",
+            "proposal_text": "={{ $json.proposal_text ?? '' }}",
+            "google_doc_url": "={{ $json.google_doc_url ?? '' }}",
+            "approval_status": "={{ $json.approval_status ?? 'DRAFT — HUMAN REVIEW REQUIRED' }}",
+            "canva_status": "={{ $json.canva_status ?? 'GOOGLE_SLIDES_PENDING' }}",
+            "processing_status": "={{ $json.processing_status ?? 'PROPOSAL_DRAFT_CREATED' }}",
+            "error_message": "={{ $json.error_message ?? '' }}",
+            "customer_name": "={{ $('Normalize Vapi Payload').item.json.customer_name ?? '' }}",
+            "business_name": "={{ $('Normalize Vapi Payload').item.json.business_name ?? '' }}",
+            "customer_email": "={{ $('Normalize Vapi Payload').item.json.customer_email ?? '' }}",
+            "customer_phone": "={{ $('Normalize Vapi Payload').item.json.customer_phone ?? '' }}",
+            "customer_role": "={{ $('Normalize Vapi Payload').item.json.customer_role ?? '' }}",
+            "business_need": "={{ $('Normalize Vapi Payload').item.json.business_need ?? '' }}",
+            "desired_outcome": "={{ $('Normalize Vapi Payload').item.json.desired_outcome ?? '' }}",
+            "systems_mentioned": "={{ $('Normalize Vapi Payload').item.json.systems_mentioned ?? '' }}",
+            "follow_up_consent": "={{ $('Normalize Vapi Payload').item.json.follow_up_consent ?? '' }}",
+            "structured_data": "={{ $('Normalize Vapi Payload').item.json.structured_data ?? '' }}",
+            "canva_design_url": "={{ $json.canva_design_url ?? '' }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "call_id",
+              "displayName": "call_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "received_at",
+              "displayName": "received_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "event_type",
+              "displayName": "event_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "transcript",
+              "displayName": "transcript",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "proposal_title",
+              "displayName": "proposal_title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "proposal_text",
+              "displayName": "proposal_text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "google_doc_url",
+              "displayName": "google_doc_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "approval_status",
+              "displayName": "approval_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "canva_status",
+              "displayName": "canva_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "processing_status",
+              "displayName": "processing_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "error_message",
+              "displayName": "error_message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "customer_name",
+              "displayName": "customer_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "business_name",
+              "displayName": "business_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "customer_email",
+              "displayName": "customer_email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "customer_phone",
+              "displayName": "customer_phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "customer_role",
+              "displayName": "customer_role",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "business_need",
+              "displayName": "business_need",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "desired_outcome",
+              "displayName": "desired_outcome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "systems_mentioned",
+              "displayName": "systems_mentioned",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "follow_up_consent",
+              "displayName": "follow_up_consent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "structured_data",
+              "displayName": "structured_data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "canva_design_url",
+              "displayName": "canva_design_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "5046b071-7460-46c7-a21d-f053b9029fef",
+      "name": "Upsert Discovery Call Log",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        3264,
+        128
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "call_id",
+              "name": "call_id",
+              "value": "={{ $('Normalize Vapi Payload').item.json.call_id }}",
+              "type": "string"
+            },
+            {
+              "id": "received_at",
+              "name": "received_at",
+              "value": "={{ $('Normalize Vapi Payload').item.json.received_at }}",
+              "type": "string"
+            },
+            {
+              "id": "event_type",
+              "name": "event_type",
+              "value": "={{ $('Normalize Vapi Payload').item.json.event_type }}",
+              "type": "string"
+            },
+            {
+              "id": "proposal_title",
+              "name": "proposal_title",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "proposal_text",
+              "name": "proposal_text",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "google_doc_url",
+              "name": "google_doc_url",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "approval_status",
+              "name": "approval_status",
+              "value": "NOT_CREATED",
+              "type": "string"
+            },
+            {
+              "id": "canva_status",
+              "name": "canva_status",
+              "value": "BLOCKED_AI_ANALYSIS_FAILURE",
+              "type": "string"
+            },
+            {
+              "id": "processing_status",
+              "name": "processing_status",
+              "value": "AI_ANALYSIS_FAILED",
+              "type": "string"
+            },
+            {
+              "id": "error_message",
+              "name": "error_message",
+              "value": "={{ typeof $json.error === 'string' ? $json.error : ($json.error?.message ?? $json.message ?? 'AI analysis failed after retries. Review the n8n execution details.') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "dotNotation": false
+        }
+      },
+      "id": "6a1fb4d9-c39c-44b3-bfa6-a4ce27b75ce3",
+      "name": "Log AI Analysis Failure",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1920,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "title": "={{ $('Prepare Proposal Package').item.json.proposal_title }}"
+      },
+      "id": "00b5349e-244c-4371-9fc6-a50c08f37597",
+      "name": "Google Slides - Create Proposal",
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2144,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1500,
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "REPLACE_ME",
+          "name": "Google Slides OAuth2 (YOUR ACCOUNT)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ 'https://slides.googleapis.com/v1/presentations/' + $json.presentationId + ':batchUpdate' }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSlidesOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { requests: $json.requests } }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "8a4e4e1c-31fc-4a9c-a9e6-553c36d9967f",
+      "name": "Google Slides - Populate Proposal",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2592,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1500,
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "REPLACE_ME",
+          "name": "Google Slides OAuth2 (YOUR ACCOUNT)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "call_id",
+              "name": "call_id",
+              "value": "={{ $('Prepare Proposal Package').item.json.call_id }}",
+              "type": "string"
+            },
+            {
+              "id": "received_at",
+              "name": "received_at",
+              "value": "={{ $('Prepare Proposal Package').item.json.received_at }}",
+              "type": "string"
+            },
+            {
+              "id": "event_type",
+              "name": "event_type",
+              "value": "={{ $('Normalize Vapi Payload').item.json.event_type }}",
+              "type": "string"
+            },
+            {
+              "id": "proposal_title",
+              "name": "proposal_title",
+              "value": "={{ $('Prepare Proposal Package').item.json.proposal_title }}",
+              "type": "string"
+            },
+            {
+              "id": "proposal_text",
+              "name": "proposal_text",
+              "value": "={{ $('Prepare Proposal Package').item.json.proposal_text }}",
+              "type": "string"
+            },
+            {
+              "id": "google_doc_url",
+              "name": "google_doc_url",
+              "value": "={{ $('Prepare Proposal Package').item.json.google_doc_url }}",
+              "type": "string"
+            },
+            {
+              "id": "approval_status",
+              "name": "approval_status",
+              "value": "={{ $('Prepare Proposal Package').item.json.approval_status }}",
+              "type": "string"
+            },
+            {
+              "id": "canva_status",
+              "name": "canva_status",
+              "value": "GOOGLE_SLIDES_CREATED",
+              "type": "string"
+            },
+            {
+              "id": "processing_status",
+              "name": "processing_status",
+              "value": "PROPOSAL_DRAFT_CREATED_IN_GOOGLE_SLIDES",
+              "type": "string"
+            },
+            {
+              "id": "error_message",
+              "name": "error_message",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "canva_design_url",
+              "name": "canva_design_url",
+              "value": "={{ 'https://docs.google.com/presentation/d/' + ($('Google Slides - Create Proposal').item.json.presentationId ?? $('Google Slides - Create Proposal').item.json.id) + '/edit' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "dotNotation": false
+        }
+      },
+      "id": "a06b3a15-49f8-4ed0-b225-02b8ba9abf80",
+      "name": "Prepare Google Slides Log Metadata",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        3040,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "folderId": "YOUR_INQUIRIES_FOLDER_ID",
+        "title": "={{ (() => { const n = $('Normalize Vapi Payload').item.json; const c = (n.customer_name || n.business_name || '').toString().replace(/[/:*?<>|#]/g, '').replace(/ +/g, ' ').trim().slice(0, 60); return 'Your Agency - ' + (c || 'Prospective Client') + ' - Discovery Inquiry - ' + $now.toFormat('yyyy-LL-dd') + (c ? '' : ' ' + $now.toFormat('HH-mm')); })() }}"
+      },
+      "id": "630b1112-a684-45f3-a9dd-614c004bfbc9",
+      "name": "Google Docs - Create Client Inquiry",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        448,
+        128
+      ],
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "REPLACE_ME",
+          "name": "Google Docs OAuth2 (YOUR ACCOUNT)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ 'https://docs.google.com/document/d/' + $('Google Docs - Create Client Inquiry').item.json.id + '/edit' }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ (() => { const n = $('Normalize Vapi Payload').item.json; const lines = [ 'YOUR AGENCY', 'CLIENT DISCOVERY INQUIRY', 'CONFIDENTIAL — PREPARED FOR INTERNAL REVIEW', '', 'CALL DETAILS', 'Call ID: ' + (n.call_id || 'Not provided'), 'Received: ' + (n.received_at || 'Not provided'), 'Call type: ' + (n.event_type || 'Not provided'), '', 'CLIENT DETAILS', 'Contact name: ' + (n.customer_name || 'Not provided'), 'Business name: ' + (n.business_name || 'Not provided'), 'Role: ' + (n.customer_role || 'Not provided'), 'Email: ' + (n.customer_email || 'Not provided'), 'Phone: ' + (n.customer_phone || n.customer_number || 'Not provided'), 'Follow-up consent: ' + (n.follow_up_consent || 'Not provided'), '', 'DISCOVERY SUMMARY', 'Business need: ' + (n.business_need || 'Not provided'), 'Desired outcome: ' + (n.desired_outcome || 'Not provided'), 'Current systems: ' + (n.systems_mentioned || 'Not provided'), 'Frequency / volume: ' + (n.volume || 'Not provided'), 'Approval requirements: ' + (n.approval_required || 'Not provided'), 'Automation preferences: ' + (n.automation_preferences || 'Not provided'), 'Constraints: ' + (n.constraints || 'Not provided'), '', 'CALL TRANSCRIPT', (n.transcript || 'No transcript was provided.'), '', 'INTERNAL FOLLOW-UP', 'Review the discovery details and validate any unknowns before recommending a solution or making commitments.' ]; return lines.join('\\n'); })() }}"
+            }
+          ]
+        }
+      },
+      "id": "40fa8f13-1cdf-400a-9566-737b9fa77093",
+      "name": "Google Docs - Write Client Inquiry",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        896,
+        128
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000,
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "REPLACE_ME",
+          "name": "Google Docs OAuth2 (YOUR ACCOUNT)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ 'https://docs.google.com/document/d/' + $('Google Docs - Create Client Inquiry').item.json.id + '/edit' }}"
+      },
+      "id": "24401335-b52b-43ab-9813-2db8e53784a2",
+      "name": "Google Docs - Get Client Inquiry",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        128
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000,
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "REPLACE_ME",
+          "name": "Google Docs OAuth2 (YOUR ACCOUNT)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $('Google Slides - Create Proposal').item.json.presentationId ?? $('Google Slides - Create Proposal').item.json.id }}"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive",
+          "cachedResultName": "My Drive"
+        },
+        "folderId": "={{ \"YOUR_PROPOSALS_FOLDER_ID\" }}"
+      },
+      "id": "c4dbde4d-217b-4351-91be-dbf7ff854ae0",
+      "name": "Google Drive - Move Proposal to Folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2816,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1500,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "REPLACE_ME",
+          "name": "Google Drive OAuth2 (YOUR ACCOUNT)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const pkg = $('Prepare Proposal Package').first().json;\nconst input = $input.item.json;\nconst biz = $('Normalize Vapi Payload').first().json;\n\n// ================= helpers =================\nconst clean = s => String(s ?? '').replace(/\\*\\*/g, '').replace(/`/g, '').replace(/\\s+/g, ' ').trim();\nconst trunc = (s, max) => {\n  s = clean(s);\n  if (s.length <= max) return s;\n  const cut = s.slice(0, max);\n  let best = -1, mark = '';\n  for (const m of ['. ', '; ', ' — ', ' (', ': ', ', ']) { const k = cut.lastIndexOf(m); if (k > best && k > max * 0.5) { best = k; mark = m; } }\n  if (best > 0) return cut.slice(0, best).replace(/[,;:\\-–—(\\s]+$/, '') + (mark === '. ' ? '.' : '.');\n  const sp = cut.lastIndexOf(' ');\n  return cut.slice(0, sp > 0 ? sp : max).replace(/[,;:\\-–—(]+$/, '') + '…';\n};\n// largest font size that fits the box; trims at a clean boundary only as a last resort\nconst fit = (txt, w, h, max, min = 10, bold = false) => {\n  txt = clean(txt);\n  const iw = Math.max(20, w - 14), ih = Math.max(10, h - 8), k = bold ? 0.58 : 0.53;\n  for (let s = max; s >= min; s -= 0.5) {\n    const cpl = Math.max(1, Math.floor(iw / (s * k)));\n    if (Math.ceil(txt.length / cpl) * s * 1.22 <= ih) return { txt, size: s };\n  }\n  const cpl = Math.max(1, Math.floor(iw / (min * k)));\n  const lines = Math.max(1, Math.floor(ih / (min * 1.22)));\n  return { txt: trunc(txt, cpl * lines - 6), size: min };\n};\n\n// evidence tags the AI appends, e.g. \"(Confirmed)\" or \"(To be validated in technical discovery)\"\nconst TAG_KEYS = /confirm|validat|proposed|recommended|observed|decision|source|assumption|risk|acceptance|criteria|dependency|measure/i;\nconst splitTag = raw => {\n  let t = clean(raw), tag = '';\n  for (let i = 0; i < 3; i++) {\n    const m = t.match(/\\s*\\(([^()]*)\\)\\s*\\.?\\s*$/);\n    if (!m || !TAG_KEYS.test(m[1])) break;\n    const x = m[1].toLowerCase();\n    if (!tag) {\n      if (/validat|confirm access|confirm with|confirm parsing|confirm acceptable|to be confirmed|pending|candidate/.test(x)) tag = 'TO CONFIRM';\n      else if (/proposed/.test(x)) tag = 'PROPOSED';\n      else if (/^confirmed|confirmed from|source: discovery|assumption — confirmed|^observed/.test(x)) tag = 'CONFIRMED';\n      else if (/recommended/.test(x)) tag = 'RECOMMENDED';\n    }\n    t = t.slice(0, m.index).replace(/[\\s;,]+$/, '');\n    if (!/[.!?…]$/.test(t)) t += '.';\n  }\n  return { text: t, tag };\n};\nconst LABELS = [\n  [/^observed/i, 'What we heard'], [/^business impact/i, 'Why it matters'], [/^gap/i, 'The gap'],\n  [/^opportunity/i, 'Opportunity'], [/^recommended/i, 'Our recommendation'], [/^measure/i, 'How we will measure'],\n  [/^dependency/i, 'What we need'], [/^decision/i, 'Decision needed'], [/^risks?/i, 'Key risks'],\n  [/^assumptions?/i, 'Assumptions'], [/^pricing/i, 'Investment and timing'], [/^to validate|^validation/i, 'To confirm'],\n  [/^next action|^next step/i, 'Next step'], [/^confirmed systems/i, 'Systems in scope'], [/^candidate integration/i, 'To be confirmed']\n];\nconst niceLabel = l => { l = clean(l); if (!l) return ''; const first = l.split('/')[0].trim(); for (const [rx, v] of LABELS) if (rx.test(first)) return v; return first.charAt(0).toUpperCase() + first.slice(1); };\n\nconst clientRaw = clean(biz.business_name || biz.customer_name || '');\nconst client = clientRaw || 'Prospective Client';\nconst clientUp = client.toUpperCase();\nconst forLine = clientRaw ? '  •  PREPARED FOR ' + clientUp : '';\nconst needText = clean(biz.business_need || biz.desired_outcome || 'To be confirmed in technical discovery');\nconst systems = (Array.isArray(biz.systems_mentioned) ? biz.systems_mentioned : String(biz.systems_mentioned || '').split(/[,;]\\s*/)).map(clean).filter(Boolean);\nconst systemsLabel = systems.slice(0, 4).join(' • ') || 'To be confirmed';\nconst contactLine = [clean(biz.customer_name), clean(biz.customer_role)].filter(Boolean).join(' • ') || 'To be confirmed';\nconst dateLabel = $now.toFormat('LLLL d, yyyy');\n\n// ================= parse the AI proposal =================\nconst raw = String(pkg.proposal_text ?? '').split(/\\r?\\n/);\nconst sections = [];\nlet cur = null;\nfor (const line of raw) {\n  const m = line.match(/^\\s{0,3}#{1,3}\\s+(.+)$/);\n  if (m) { if (cur) sections.push(cur); cur = { heading: clean(m[1].replace(/^\\d+[.)]\\s*/, '')), lines: [] }; }\n  else if (cur && line.trim()) cur.lines.push(line);\n}\nif (cur) sections.push(cur);\n\nconst parsed = sections.map(s => {\n  let headline = '';\n  const items = [];\n  for (const l of s.lines) {\n    const numbered = /^\\s*\\d+[.)]\\s+/.test(l);\n    const t0 = clean(l.replace(/^\\s*[-*•]\\s+/, '').replace(/^\\s*\\d+[.)]\\s+/, ''));\n    if (!t0) continue;\n    if (/^headline\\s*:/i.test(t0)) { headline = splitTag(t0.replace(/^headline\\s*:\\s*/i, '')).text; continue; }\n    const lm = t0.match(/^([A-Za-z][A-Za-z0-9 \\/&+—-]{1,64}):\\s+(.+)$/);\n    const body = splitTag(lm ? lm[2] : t0);\n    items.push({ label: lm ? niceLabel(lm[1]) : '', rawLabel: lm ? lm[1] : '', text: body.text, tag: body.tag, numbered });\n  }\n  if (!headline && items.length) headline = items[0].text;\n  return { heading: s.heading, headline: trunc(headline || s.heading, 150), items };\n}).filter(s => s.items.length || s.headline).slice(0, 8);\n\nif (!parsed.length) {\n  parsed.push({ heading: 'Proposal Summary', headline: 'A practical starting point for a more connected operation', items: [\n    { label: 'Next step', text: 'Confirm the current process and business priority.', tag: '', numbered: false },\n    { label: 'What we need', text: 'Validate system access and integration options.', tag: '', numbered: false },\n    { label: 'How we will measure', text: 'Agree measurable acceptance criteria before implementation.', tag: '', numbered: false }] });\n}\nconst total = parsed.length + 1;\n\n// ================= palette & primitives =================\nconst C = {\n  bg: { red: 0.025, green: 0.04, blue: 0.075 }, panel: { red: 0.06, green: 0.09, blue: 0.15 }, panel2: { red: 0.085, green: 0.13, blue: 0.21 },\n  green: { red: 0.12, green: 0.82, blue: 0.48 }, cyan: { red: 0.20, green: 0.75, blue: 0.95 }, white: { red: 0.96, green: 0.98, blue: 1 },\n  muted: { red: 0.67, green: 0.74, blue: 0.84 }, orange: { red: 1, green: 0.66, blue: 0.28 }, line: { red: 0.16, green: 0.24, blue: 0.36 }\n};\nconst TAGCOL = { 'CONFIRMED': C.green, 'TO CONFIRM': C.orange, 'PROPOSED': C.cyan, 'RECOMMENDED': C.cyan };\nconst req = [];\nconst addShape = (sid, oid, x, y, w, h, fill, type = 'ROUND_RECTANGLE') => {\n  req.push(\n    { createShape: { objectId: oid, shapeType: type, elementProperties: { pageObjectId: sid, size: { width: { magnitude: w, unit: 'PT' }, height: { magnitude: h, unit: 'PT' } }, transform: { scaleX: 1, scaleY: 1, translateX: x, translateY: y, unit: 'PT' } } } },\n    { updateShapeProperties: { objectId: oid, shapeProperties: { shapeBackgroundFill: { solidFill: { color: { rgbColor: fill }, alpha: 1 } }, outline: { propertyState: 'NOT_RENDERED' } }, fields: 'shapeBackgroundFill,outline' } });\n};\nconst styleText = (oid, size, color, bold, align) => {\n  req.push({ updateTextStyle: { objectId: oid, textRange: { type: 'ALL' }, style: { fontFamily: 'Arial', fontSize: { magnitude: size, unit: 'PT' }, bold, foregroundColor: { opaqueColor: { rgbColor: color } } }, fields: 'fontFamily,fontSize,bold,foregroundColor' } });\n  if (align && align !== 'START') req.push({ updateParagraphStyle: { objectId: oid, textRange: { type: 'ALL' }, style: { alignment: align }, fields: 'alignment' } });\n};\nconst addText = (sid, oid, txt, x, y, w, h, size, color, bold = false, align = 'START') => {\n  txt = String(txt ?? '');\n  req.push({ createShape: { objectId: oid, shapeType: 'TEXT_BOX', elementProperties: { pageObjectId: sid, size: { width: { magnitude: w, unit: 'PT' }, height: { magnitude: h, unit: 'PT' } }, transform: { scaleX: 1, scaleY: 1, translateX: x, translateY: y, unit: 'PT' } } } });\n  if (!txt) return;\n  req.push({ insertText: { objectId: oid, insertionIndex: 0, text: txt } });\n  styleText(oid, size, color, bold, align);\n};\nconst addFit = (sid, oid, txt, x, y, w, h, max, min, color, bold = false) => {\n  const f = fit(txt, w, h, max, min, bold);\n  addText(sid, oid, f.txt, x, y, w, h, f.size, color, bold);\n};\n// filled shape that carries its own centred text (badges, chips, flow boxes)\nconst addBadge = (sid, oid, x, y, w, h, fill, txt, size, color, bold = true, type = 'ELLIPSE') => {\n  addShape(sid, oid, x, y, w, h, fill, type);\n  if (!txt) return;\n  req.push({ insertText: { objectId: oid, insertionIndex: 0, text: String(txt) } });\n  styleText(oid, size, color, bold, 'CENTER');\n  req.push({ updateShapeProperties: { objectId: oid, shapeProperties: { contentAlignment: 'MIDDLE' }, fields: 'contentAlignment' } });\n};\nconst addChip = (sid, p, x, y, tag) => {\n  if (!tag) return;\n  const w = 8 + tag.length * 5.6;\n  addBadge(sid, p + '_chip', x - w, y, w, 13, TAGCOL[tag] || C.cyan, tag, 7, C.bg, true, 'ROUND_RECTANGLE');\n};\nconst addBase = (sid, n, heading, headline) => {\n  req.push({ createSlide: { objectId: sid, slideLayoutReference: { predefinedLayout: 'BLANK' } } },\n    { updatePageProperties: { objectId: sid, pageProperties: { pageBackgroundFill: { solidFill: { color: { rgbColor: C.bg }, alpha: 1 } } }, fields: 'pageBackgroundFill' } });\n  addText(sid, 'brand_' + n, 'YOUR AGENCY  /  AI AUTOMATION', 36, 16, 300, 16, 9, C.green, true);\n  addFit(sid, 'kicker_' + n, ('AUTOMATION AUDIT & PROPOSAL' + (clientRaw ? '  •  ' + clientUp : '')).slice(0, 90), 36, 32, 640, 16, 8, 7, C.muted, true);\n  addShape(sid, 'accent_' + n, 36, 56, 48, 4, C.green, 'RECTANGLE');\n  addFit(sid, 'title_' + n, heading, 36, 64, 640, 34, 24, 16, C.white, true);\n  addFit(sid, 'headline_' + n, headline, 36, 100, 648, 46, 14, 11, C.cyan, true);\n  addText(sid, 'footer_' + n, 'DRAFT FOR DISCUSSION  •  CONFIDENTIAL' + forLine + '  •  YOUR AGENCY', 36, 384, 560, 14, 7, C.muted, false);\n  addText(sid, 'page_' + n, String(n).padStart(2, '0') + ' / ' + String(total).padStart(2, '0'), 600, 382, 84, 16, 8, C.green, true, 'END');\n};\n// content card: coloured stripe, caps label, body text, optional evidence chip\nconst addCard = (sid, p, x, y, w, h, label, body, accent = C.green, max = 12, tag = '') => {\n  addShape(sid, p + '_card', x, y, w, h, C.panel, 'RECTANGLE');\n  addShape(sid, p + '_stripe', x, y, 4, h, accent, 'RECTANGLE');\n  addFit(sid, p + '_label', String(label).toUpperCase(), x + 12, y + 6, w - 22 - (tag ? 70 : 0), 16, 9, 8, accent, true);\n  addChip(sid, p, x + w - 8, y + 9, tag);\n  addFit(sid, p + '_body', body, x + 12, y + 24, w - 22, h - 28, max, 10, C.white, false);\n};\nconst stack = (sid, p, items, x, y, w, totalH, gap, defaults, max = 12) => {\n  const n = items.length; if (!n) return;\n  const h = (totalH - gap * (n - 1)) / n;\n  items.forEach((it, j) => addCard(sid, p + '_' + j, x, y + j * (h + gap), w, h, it.label || defaults[j] || 'Detail', it.text, j % 2 ? C.cyan : C.green, max, it.tag));\n};\nconst sidePanel = (sid, p, x, y, w, h, label, lines) => {\n  addShape(sid, p + '_panel', x, y, w, h, C.panel2);\n  addText(sid, p + '_label', label, x + 14, y + 10, w - 28, 16, 9, C.green, true);\n  const avail = h - 40, tw = lines.reduce((a, l) => a + (l.wt || 1), 0);\n  let yy = y + 32;\n  lines.forEach((ln, j) => {\n    const seg = avail * (ln.wt || 1) / tw, hh = seg - 4;\n    addText(sid, p + '_k' + j, ln.k, x + 14, yy, w - 28, 13, 8, C.cyan, true);\n    addFit(sid, p + '_v' + j, ln.v, x + 14, yy + 13, w - 28, hh - 11, 12, 9, C.white, true);\n    yy += seg;\n  });\n};\n\n// ================= cover slide =================\nconst firstSlide = (input.slides ?? [])[0];\nconst cover = firstSlide?.objectId || 'deck_cover';\nif (firstSlide) (firstSlide.pageElements ?? []).forEach(e => { if (e?.objectId) req.push({ deleteObject: { objectId: e.objectId } }); });\nelse req.push({ createSlide: { objectId: cover, slideLayoutReference: { predefinedLayout: 'BLANK' } } });\nreq.push({ updatePageProperties: { objectId: cover, pageProperties: { pageBackgroundFill: { solidFill: { color: { rgbColor: C.bg }, alpha: 1 } } }, fields: 'pageBackgroundFill' } });\naddShape(cover, 'cover_orbit1', 520, 30, 155, 155, C.panel2, 'ELLIPSE');\naddShape(cover, 'cover_orbit2', 558, 68, 80, 80, C.green, 'ELLIPSE');\naddShape(cover, 'cover_orbit3', 579, 89, 38, 38, C.bg, 'ELLIPSE');\naddShape(cover, 'cover_orbit4', 506, 150, 22, 22, C.cyan, 'ELLIPSE');\naddText(cover, 'cover_brand', 'YOUR AGENCY  /  AI AUTOMATION AGENCY', 44, 40, 440, 22, 12, C.green, true);\naddText(cover, 'cover_label', 'DISCOVERY AUDIT  +  PROPOSAL', 44, 96, 440, 20, 10, C.cyan, true);\naddFit(cover, 'cover_title', 'Automation Audit & Proposal', 44, 122, 470, 52, 36, 24, C.white, true);\naddFit(cover, 'cover_client_title', clientRaw ? 'Prepared for ' + clientRaw : 'Prepared following your discovery call', 44, 180, 470, 30, 20, 12, C.green, true);\naddFit(cover, 'cover_subtitle', 'A practical plan to remove operational friction, connect the right systems and make improvement measurable.', 44, 218, 470, 56, 14, 11, C.muted, false);\naddShape(cover, 'cover_client_card', 44, 300, 632, 62, C.panel);\naddText(cover, 'cover_client_label', 'PREPARED FOR', 58, 310, 130, 14, 8, C.green, true);\naddFit(cover, 'cover_client', client, 58, 326, 190, 32, 13, 10, C.white, true);\naddText(cover, 'cover_priority_label', 'DISCOVERY PRIORITY', 262, 310, 160, 14, 8, C.cyan, true);\naddFit(cover, 'cover_priority', trunc(needText, 120), 262, 326, 270, 32, 10.5, 9, C.white, false);\naddText(cover, 'cover_date_label', 'DATE', 548, 310, 100, 14, 8, C.green, true);\naddFit(cover, 'cover_date', dateLabel, 548, 326, 122, 32, 12, 9, C.white, true);\naddText(cover, 'cover_footer', 'DRAFT FOR DISCUSSION  •  CONFIDENTIAL  •  YOUR AGENCY', 44, 376, 560, 14, 8, C.muted, true);\n\n// ================= content slides =================\nconst Y = 158, H = 214, X0 = 36, W = 648;\nparsed.forEach((s, i) => {\n  const n = i + 2, sid = 'deck_slide_' + n, h = s.heading.toLowerCase();\n  addBase(sid, n, s.heading, s.headline);\n  const items = s.items.length ? s.items : [{ label: 'Next step', text: 'To be validated in technical discovery.', tag: '', numbered: false }];\n\n  if (/future.state/.test(h)) {\n    // numbered process line with one card per step\n    let steps = items.filter(x => x.numbered);\n    if (steps.length < 2) steps = items.slice(0, 5);\n    steps = steps.slice(0, 5);\n    const count = steps.length, gap = 10, bw = (W - gap * (count - 1)) / count;\n    addShape(sid, 'flow_line_' + n, X0 + bw / 2, Y + 15, W - bw, 3, C.line, 'RECTANGLE');\n    steps.forEach((st, j) => {\n      const x = X0 + j * (bw + gap), acc = j % 2 ? C.cyan : C.green;\n      const m = st.text.match(/^([A-Za-z][A-Za-z \\/&-]{2,22}):\\s+(.+)$/);\n      const lab = (st.label && !/^step\\b/i.test(st.label)) ? st.label : (m ? m[1] : 'Step ' + (j + 1));\n      const body = (st.label && !/^step\\b/i.test(st.label)) || !m ? st.text : m[2];\n      addBadge(sid, 'flow_dot_' + n + '_' + j, x + bw / 2 - 17, Y, 34, 34, acc, String(j + 1), 13, C.bg);\n      addShape(sid, 'flow_card_' + n + '_' + j, x, Y + 44, bw, H - 44, C.panel, 'RECTANGLE');\n      addShape(sid, 'flow_top_' + n + '_' + j, x, Y + 44, bw, 3, acc, 'RECTANGLE');\n      addFit(sid, 'flow_lab_' + n + '_' + j, lab.toUpperCase(), x + 6, Y + 52, bw - 12, 16, 10, 8, acc, true);\n      addFit(sid, 'flow_txt_' + n + '_' + j, trunc(body, 135), x + 6, Y + 70, bw - 12, H - 96, 11.5, 10, C.white, false);\n      addChip(sid, 'flow_' + n + '_' + j, x + bw - 4, Y + H - 16, st.tag);\n    });\n  } else if (/architecture/.test(h)) {\n    // simple systems diagram: inputs -> automation hub -> outcomes, then scope and access cards\n    const ins = (systems.length ? systems : ['Client systems']).slice(0, 4);\n    addShape(sid, 'arch_in_panel_' + n, X0, Y, 200, 106, C.panel, 'ROUND_RECTANGLE');\n    addText(sid, 'arch_in_lab_' + n, 'CLIENT SYSTEMS', X0 + 10, Y + 5, 180, 14, 8, C.green, true);\n    const chipH = Math.min(20, (106 - 28 - 4 * (ins.length - 1)) / ins.length);\n    ins.forEach((sy, j) => addBadge(sid, 'arch_in_' + n + '_' + j, X0 + 12, Y + 24 + j * (chipH + 4), 176, chipH, C.panel2, sy.slice(0, 26), 10, C.white, true, 'ROUND_RECTANGLE'));\n    addShape(sid, 'arch_a1_' + n, X0 + 206, Y + 40, 34, 26, C.green, 'RIGHT_ARROW');\n    addBadge(sid, 'arch_hub_' + n, X0 + 246, Y + 8, 156, 90, C.green, 'AUTOMATION HUB', 11, C.bg, true, 'ROUND_RECTANGLE');\n    addText(sid, 'arch_hub_sub_' + n, 'Rules  •  AI assistance  •  Logging', X0 + 246, Y + 98, 156, 14, 8, C.muted, false, 'CENTER');\n    addShape(sid, 'arch_a2_' + n, X0 + 408, Y + 40, 34, 26, C.green, 'RIGHT_ARROW');\n    addShape(sid, 'arch_out_panel_' + n, X0 + 448, Y, 200, 106, C.panel, 'ROUND_RECTANGLE');\n    addText(sid, 'arch_out_lab_' + n, 'PROPOSED OUTCOMES', X0 + 458, Y + 5, 180, 14, 8, C.cyan, true);\n    ['One source of truth', 'Automatic notifications', 'Review and monitoring'].forEach((o, j) => addBadge(sid, 'arch_out_' + n + '_' + j, X0 + 460, Y + 24 + j * 26, 176, 22, C.panel2, o, 10, C.white, true, 'ROUND_RECTANGLE'));\n    const rest = items.slice(0, 2);\n    rest.forEach((it, j) => addCard(sid, 'arch_card_' + n + '_' + j, X0 + j * (rest.length === 1 ? 0 : 328), Y + 120, rest.length === 1 ? W : 320, H - 120, it.label || (j ? 'To be confirmed' : 'Systems in scope'), trunc(it.text, 230), j ? C.orange : C.green, 11, it.tag));\n  } else if (/implementation/.test(h)) {\n    // phase chevrons with description and acceptance check\n    const ph = items.filter(x => /phase/i.test(x.rawLabel + ' ' + x.text.slice(0, 12))).slice(0, 4);\n    const list = ph.length >= 2 ? ph : items.slice(0, 4);\n    const count = list.length, gap = 8, bw = (W - gap * (count - 1)) / count;\n    list.forEach((it, j) => {\n      const x = X0 + j * (bw + gap), acc = j % 2 ? C.cyan : C.green;\n      const parts = it.text.split(/\\bAcceptance\\s*:\\s*/i);\n      const body = trunc(parts[0], 100), acc_t = parts[1] ? trunc(parts[1], 115) : '';\n      const name = clean(it.label.replace(/^phase\\s*\\d+\\s*[—-]?\\s*/i, '')) || 'Phase ' + (j + 1);\n      addBadge(sid, 'ph_head_' + n + '_' + j, x, Y, bw, 30, acc, 'PHASE ' + (j + 1), 11, C.bg, true, 'HOME_PLATE');\n      addShape(sid, 'ph_card_' + n + '_' + j, x, Y + 36, bw, H - 36, C.panel, 'RECTANGLE');\n      addFit(sid, 'ph_name_' + n + '_' + j, name, x + 6, Y + 38, bw - 12, 34, 12, 9, C.white, true);\n      addFit(sid, 'ph_body_' + n + '_' + j, body, x + 6, Y + 70, bw - 12, acc_t ? 62 : 104, 10.5, 10, C.muted, false);\n      if (acc_t) {\n        addShape(sid, 'ph_accbar_' + n + '_' + j, x + 8, Y + 134, bw - 16, 1.5, C.line, 'RECTANGLE');\n        addText(sid, 'ph_acclab_' + n + '_' + j, 'ACCEPTANCE CHECK', x + 6, Y + 138, bw - 12, 12, 8, acc, true);\n        addFit(sid, 'ph_acc_' + n + '_' + j, acc_t, x + 6, Y + 151, bw - 12, H - 153, 10, 9.5, C.white, false);\n      }\n    });\n  } else if (/pain points/.test(h)) {\n    // problem -> fix rows with arrow between\n    const pairs = [];\n    for (let k = 0; k < items.length && pairs.length < 3; k += 2) pairs.push([items[k], items[k + 1]]);\n    const rows = pairs.length, gap = 10, rh = (H - gap * (rows - 1)) / rows;\n    pairs.forEach((pr, j) => {\n      const y = Y + j * (rh + gap);\n      addCard(sid, 'prob_' + n + '_' + j, X0, y, 292, rh, 'The problem', trunc(pr[0].text, 150), C.orange, 11.5, pr[0].tag);\n      addBadge(sid, 'prob_ic_' + n + '_' + j, X0 + 292 - 28, y + rh - 26, 20, 20, C.orange, '!', 11, C.bg);\n      addShape(sid, 'prob_arrow_' + n + '_' + j, X0 + 298, y + rh / 2 - 13, 40, 26, C.green, 'RIGHT_ARROW');\n      if (pr[1]) {\n        addCard(sid, 'fix_' + n + '_' + j, X0 + 344, y, 304, rh, 'The opportunity', trunc(pr[1].text, 160), C.green, 11.5, pr[1].tag);\n        addBadge(sid, 'fix_ic_' + n + '_' + j, X0 + 344 + 304 - 28, y + rh - 26, 20, 20, C.green, '+', 12, C.bg);\n      }\n    });\n  } else if (/recommended solution/.test(h)) {\n    const left = items.slice(0, 3), cnt = left.length, g = 9, ch = (H - g * (cnt - 1)) / cnt;\n    left.forEach((it, j) => {\n      const y = Y + j * (ch + g), acc = j % 2 ? C.cyan : C.green;\n      addShape(sid, 'sol_card_' + n + '_' + j, X0, y, 424, ch, C.panel, 'RECTANGLE');\n      addBadge(sid, 'sol_num_' + n + '_' + j, X0 + 10, y + ch / 2 - 15, 30, 30, acc, String(j + 1), 13, C.bg);\n      addFit(sid, 'sol_lab_' + n + '_' + j, (it.label || 'Workstream ' + (j + 1)).toUpperCase(), X0 + 50, y + 5, 260, 16, 9, 8, acc, true);\n      addChip(sid, 'sol_' + n + '_' + j, X0 + 416, y + 7, it.tag);\n      addFit(sid, 'sol_body_' + n + '_' + j, trunc(it.text, 195), X0 + 50, y + 22, 366, ch - 26, 11.5, 10, C.white, false);\n    });\n    sidePanel(sid, 'solution_' + n, 472, Y, 212, H, 'TARGET OUTCOME', [{ k: 'FOR', v: client, wt: 0.9 }, { k: 'WHAT CHANGES', v: 'Clear ownership, visible status and fewer manual hand-offs.', wt: 1.5 }, { k: 'HOW WE KNOW', v: 'Measured against acceptance checks agreed with you.', wt: 1.3 }]);\n  } else if (/risks|assumptions/.test(h)) {\n    const nextIdx = items.findIndex(x => /next|decision|action/i.test(x.label) || /^next/i.test(x.rawLabel));\n    const next = nextIdx >= 0 ? items[nextIdx] : null;\n    const left = items.filter((x, j) => j !== nextIdx).slice(0, 3), cnt = left.length || 1, g = 9, ch = (H - g * (cnt - 1)) / cnt;\n    left.forEach((it, j) => {\n      const y = Y + j * (ch + g), acc = /risk/i.test(it.label) ? C.orange : (j % 2 ? C.cyan : C.green);\n      addShape(sid, 'risk_card_' + n + '_' + j, X0, y, 404, ch, C.panel, 'RECTANGLE');\n      addShape(sid, 'risk_stripe_' + n + '_' + j, X0, y, 4, ch, acc, 'RECTANGLE');\n      addBadge(sid, 'risk_ic_' + n + '_' + j, X0 + 14, y + 8, 22, 22, acc, /risk/i.test(it.label) ? '!' : String(j + 1), 11, C.bg);\n      addFit(sid, 'risk_lab_' + n + '_' + j, (it.label || 'To confirm').toUpperCase(), X0 + 44, y + 8, 250, 16, 9, 8, acc, true);\n      addChip(sid, 'risk_' + n + '_' + j, X0 + 396, y + 10, it.tag);\n      addFit(sid, 'risk_body_' + n + '_' + j, trunc(it.text, 200), X0 + 44, y + 26, 352, ch - 30, 11, 10, C.white, false);\n    });\n    addShape(sid, 'next_panel_' + n, 452, Y, 232, H, C.panel2);\n    addBadge(sid, 'next_ic_' + n, 466, Y + 12, 24, 24, C.green, '>', 12, C.bg);\n    addText(sid, 'next_label_' + n, 'PROPOSED NEXT STEP', 498, Y + 16, 180, 16, 9, C.green, true);\n    addFit(sid, 'next_text_' + n, trunc(next ? next.text : 'Confirm scope and system access, then agree success measures.', 230), 460, Y + 44, 216, H - 96, 12, 10, C.white, true);\n    addShape(sid, 'next_bar_' + n, 466, Y + H - 46, 204, 1.5, C.line, 'RECTANGLE');\n    addText(sid, 'next_inv_lab_' + n, 'INVESTMENT AND TIMING', 466, Y + H - 40, 204, 12, 7.5, C.cyan, true);\n    addText(sid, 'next_inv_' + n, 'To be scoped after technical discovery.', 466, Y + H - 27, 210, 18, 10, C.white, false);\n  } else if (/current.state/.test(h)) {\n    stack(sid, 'cur_' + n, items.slice(0, 3), X0, Y, 404, H, 9, ['What we heard', 'Why it matters', 'The gap'], 11.5);\n    // \"today's flow\" mini-diagram\n    const px = 452, pw = 232;\n    addShape(sid, 'flow_panel_' + n, px, Y, pw, H, C.panel2);\n    addText(sid, 'flow_lab_' + n, \"TODAY'S FLOW\", px + 14, Y + 10, pw - 28, 16, 9, C.green, true);\n    const ins = (systems.length ? systems : ['Requests']).slice(0, 3);\n    const cw = (pw - 28 - 6 * (ins.length - 1)) / ins.length;\n    ins.forEach((sy, j) => addBadge(sid, 'flow_in_' + n + '_' + j, px + 14 + j * (cw + 6), Y + 32, cw, 30, C.panel, sy.slice(0, 22), 8, C.white, true, 'ROUND_RECTANGLE'));\n    addShape(sid, 'flow_d1_' + n, px + pw / 2 - 11, Y + 68, 22, 20, C.orange, 'DOWN_ARROW');\n    addBadge(sid, 'flow_mid_' + n, px + 14, Y + 94, pw - 28, 34, C.orange, 'Manual copying and chasing', 10, C.bg, true, 'ROUND_RECTANGLE');\n    addShape(sid, 'flow_d2_' + n, px + pw / 2 - 11, Y + 134, 22, 20, C.orange, 'DOWN_ARROW');\n    addBadge(sid, 'flow_end_' + n, px + 14, Y + 160, pw - 28, 40, C.panel, 'Lost details, rework and status enquiries', 10, C.white, true, 'ROUND_RECTANGLE');\n  } else {\n    // executive summary and any other section: 2x2 insight cards plus client snapshot\n    const four = items.slice(0, 4), cols = 2, g = 9, cw = (424 - g) / 2, rowsN = Math.ceil(four.length / cols), ch = (H - g * (rowsN - 1)) / rowsN;\n    four.forEach((it, j) => {\n      const x = X0 + (j % cols) * (cw + g), y = Y + Math.floor(j / cols) * (ch + g);\n      addCard(sid, 'ins_' + n + '_' + j, x, y, cw, ch, it.label || ['What we heard', 'Why it matters', 'Our recommendation', 'Decision needed'][j] || 'Detail', trunc(it.text, 150), j % 2 ? C.cyan : C.green, 11, it.tag);\n    });\n    sidePanel(sid, 'snapshot_' + n, 482, Y, 202, H, 'CLIENT SNAPSHOT', [{ k: 'CLIENT', v: client, wt: 1 }, { k: 'CONTACT', v: contactLine, wt: 1.5 }, { k: 'PRIORITY', v: trunc(needText, 95), wt: 2.4 }, { k: 'SYSTEMS MENTIONED', v: systems.slice(0, 4).join(', ') || 'To be confirmed', wt: 1.9 }]);\n  }\n});\n\nreturn { json: { presentationId: input.presentationId ?? input.id, requests: req } };\n"
+      },
+      "id": "a1ddd2e5-6b00-41e6-ae1d-0a29ebcf3c2e",
+      "name": "Build Slides Batch Requests",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2368,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ typeof $json.output === 'string' && [\"Executive Summary\",\"Discovery Findings\",\"Current-State Workflow\",\"Pain Points and Business Impact\",\"Automation Opportunities\",\"Recommended Solution\",\"Future-State Workflow\",\"Recommended Tools and Alternatives\",\"Architecture and Integrations\",\"Data, Security and Access\",\"Implementation Roadmap and Acceptance Criteria\",\"Risks, Assumptions and Validation\",\"Investment, Success Metrics and Next Steps\"].every(h => $json.output.includes('## ' + h)) ? 'PASS' : '' }}",
+              "rightValue": "PASS",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              },
+              "id": "cec5bde5-a4b5-45a1-ba85-0975e378887c"
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "440b4d0d-a3c0-497f-a30b-58088abb3b88",
+      "name": "Validate AI Proposal Output",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1696,
+        48
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1312,
+        368
+      ],
+      "id": "43c68857-5314-41db-9070-5747f19d44df",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\nconst root = input.body ?? input;\nconst m = root.message ?? root;\nconst call = m.call ?? root.call ?? {};\nconst artifact = m.artifact ?? root.artifact ?? call.artifact ?? {};\nconst headers = input.headers ?? {};\nconst toolCall = (m.toolCalls ?? m.toolCallList ?? [])[0] ?? {};\nconst fn = toolCall.function ?? {};\nconst fnKeys = Object.keys(fn);\nconst argsKey = fnKeys.find(k => k === 'arguments');\nlet args = argsKey ? fn[argsKey] : {};\nif (typeof args === 'string') { try { args = JSON.parse(args); } catch { args = {}; } }\nif (!args || typeof args !== 'object' || Array.isArray(args)) args = {};\nconst rawStructured = m.analysis?.structuredData ?? artifact.structuredOutputs ?? artifact.structuredData ?? call.analysis?.structuredData ?? call.artifact?.structuredOutputs ?? root.analysis?.structuredData ?? args;\nconst unwrap = x => x?.result ?? x?.data ?? x?.output ?? x?.value ?? x;\nlet structured = {};\nif (Array.isArray(rawStructured)) structured = Object.assign({}, ...rawStructured.map(unwrap).filter(x => x && typeof x === 'object'));\nelse if (rawStructured && typeof rawStructured === 'object') {\n  const vals = Object.values(rawStructured);\n  const nested = vals.some(v => v && typeof v === 'object' && ('result' in v || 'data' in v || 'output' in v || 'value' in v));\n  structured = nested ? Object.assign({}, ...vals.map(unwrap).filter(x => x && typeof x === 'object')) : rawStructured;\n}\nconst first = (...vals) => vals.find(v => v !== undefined && v !== null && v !== '') ?? '';\nconst text = first(artifact.transcript, m.transcript, root.transcript,\n  (artifact.messages ?? []).filter(x => x?.message && ['user','bot','assistant'].includes(x.role)).map(x => (x.role === 'user' ? 'Caller' : 'Roy') + ': ' + x.message).join('\\n'));\nconst callId = first(headers['x-call-id'], headers['X-Call-Id'], call.id, m.callId, root.callId, toolCall.id, 'missing-' + Date.now());\nconst systems = first(structured.systems_mentioned, structured.systemsMentioned, structured.systems, structured.tools, structured.current_tools, structured.currentTools, args.systemsMentioned, []);\nconst transcriptLines = String(text || '').split(/\\r?\\n/);\nconst volumeLine = transcriptLines.find(line => /\\b(per week|weekly|times a week|every day|daily)\\b/i.test(line) && /\\d|customer|client|interaction|handle|manage/i.test(line)) || '';\nconst approvalLine = transcriptLines.find(line => /\\b(approve|approval|review)\\b/i.test(line) && /\\b(email|send|sending|before)\\b/i.test(line)) || '';\nconst preferencesLine = transcriptLines.find(line => /\\b(automate|automation|follow.?up|notification|personalized email)\\b/i.test(line) && /\\b(want|need|would like|request|prefer)\\b/i.test(line)) || '';\nconst transcriptEvidence = line => String(line).replace(/^\\s*(?:[•*-]\\s*)?(?:Caller|Client|User|Roy|AI|Assistant)\\s*:\\s*/i, '').trim();\nconst output = {\n transcript: text,\n call_id: String(callId),\n event_type: first(m.type, root.type, 'unknown'),\n ended_reason: first(m.endedReason, call.endedReason, root.endedReason),\n call_metadata: JSON.stringify(call),\n artifact_messages: JSON.stringify(artifact.messages ?? []),\n recording_url: first(artifact.recordingUrl, artifact.recording?.url, root.recordingUrl),\n customer_number: first(call.customer?.number, call.customer?.phoneNumber),\n assistant_number: first(call.phoneNumber?.number, call.assistant?.phoneNumber, m.call?.phoneNumber?.number),\n customer_name: first(structured.customer_name, structured.customerName, structured.caller_name, structured.callerName, structured.name, args.customerName),\n business_name: first(structured.business_name, structured.businessName, structured.company_name, structured.companyName, args.businessName),\n customer_email: first(structured.email, structured.customer_email, structured.customerEmail, structured.caller_email, structured.callerEmail, args.email),\n customer_phone: first(structured.phone, structured.customer_phone, structured.customerPhone, structured.caller_phone, structured.callerPhone, call.customer?.number, call.customer?.phoneNumber, args.phone),\n customer_role: first(structured.role, structured.customer_role, structured.customerRole, structured.job_title, structured.jobTitle, args.callerRole),\n business_need: first(structured.business_need, structured.businessNeed, structured.primary_need, structured.primaryNeed, structured.need, args.businessNeed),\n\n desired_outcome: first(structured.desired_outcome, structured.desiredOutcome, structured.outcome, structured.goal, args.desiredOutcome),\n volume: first(structured.volume, structured.interaction_volume, structured.interactionVolume, structured.weekly_volume, structured.weeklyVolume, args.volume, transcriptEvidence(volumeLine)),\n approval_required: first(structured.approval_required, structured.approvalRequired, structured.human_approval_required, structured.humanApprovalRequired, args.approvalRequired, transcriptEvidence(approvalLine)),\n automation_preferences: first(structured.automation_preferences, structured.automationPreferences, args.automationPreferences, transcriptEvidence(preferencesLine)),\n constraints: first(structured.constraints, structured.constraints_or_requirements, structured.constraintsOrRequirements, args.constraints),\n systems_mentioned: Array.isArray(systems) ? systems.join(', ') : systems,\n follow_up_consent: first(structured.follow_up_consent, structured.followUpConsent, structured.consent_to_follow_up, structured.consentToFollowUp, args.followUpConsent, 'Not provided'),\n structured_data: JSON.stringify(structured),\n received_at: new Date().toISOString()\n};\nreturn [{ json: output }];"
+      },
+      "id": "a87a2962-f249-4739-9352-7c9af7f19e56",
+      "name": "Normalize Vapi Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $('Google Docs - Create Client Inquiry').item.json.id }}"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive",
+          "cachedResultName": "My Drive"
+        },
+        "folderId": "={{ \"YOUR_INQUIRIES_FOLDER_ID\" }}"
+      },
+      "id": "259fa5d7-d6e8-4f5c-9f0d-7292274f0648",
+      "name": "Google Drive - Move Inquiry to Folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        672,
+        128
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "REPLACE_ME",
+          "name": "Google Drive OAuth2 (YOUR ACCOUNT)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Research current web information relevant to auditing and improving the customer's workflow. Search for official product documentation, API/integration support, pricing pages, security documentation, technical limitations, and credible comparisons. Use specific queries. Never treat a search snippet as definitive when an official source can be checked.",
+        "query": "={{ $fromAI('query', 'Specific web research query about tools, APIs, workflow improvements, technical limits, pricing, or official documentation', 'string') }}",
+        "count": 8,
+        "additionalParameters": {
+          "country": "ALL",
+          "search_lang": "en",
+          "safesearch": "moderate",
+          "spellcheck": true,
+          "extra_snippets": true
+        }
+      },
+      "id": "b03ed066-980a-4c8d-8a73-ecd060a58aef",
+      "name": "Brave Web Search",
+      "type": "@brave/n8n-nodes-brave-search.braveSearchTool",
+      "typeVersion": 1.1,
+      "position": [
+        1488,
+        352
+      ],
+      "credentials": {
+        "braveSearchApi": {
+          "id": null,
+          "name": "Gateway credits",
+          "__aiGatewayManaged": true
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Log AI Analysis Failure": {
+      "main": [
+        [
+          {
+            "node": "Upsert Discovery Call Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Proposal Package": {
+      "main": [
+        [
+          {
+            "node": "Google Slides - Create Proposal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Google Slides Log Metadata": {
+      "main": [
+        [
+          {
+            "node": "Upsert Discovery Call Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs - Create Client Inquiry": {
+      "main": [
+        [
+          {
+            "node": "Google Drive - Move Inquiry to Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs - Get Client Inquiry": {
+      "main": [
+        [
+          {
+            "node": "Analyze Discovery Call and Draft Proposal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Slides - Populate Proposal": {
+      "main": [
+        [
+          {
+            "node": "Google Drive - Move Proposal to Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive - Move Proposal to Folder": {
+      "main": [
+        [
+          {
+            "node": "Prepare Google Slides Log Metadata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Slides - Create Proposal": {
+      "main": [
+        [
+          {
+            "node": "Build Slides Batch Requests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Slides Batch Requests": {
+      "main": [
+        [
+          {
+            "node": "Google Slides - Populate Proposal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Discovery Call and Draft Proposal": {
+      "main": [
+        [
+          {
+            "node": "Validate AI Proposal Output",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log AI Analysis Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate AI Proposal Output": {
+      "main": [
+        [
+          {
+            "node": "Prepare Proposal Package",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log AI Analysis Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Analyze Discovery Call and Draft Proposal",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vapi Discovery Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize Vapi Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Vapi Payload": {
+      "main": [
+        [
+          {
+            "node": "Google Docs - Create Client Inquiry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs - Write Client Inquiry": {
+      "main": [
+        [
+          {
+            "node": "Google Docs - Get Client Inquiry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive - Move Inquiry to Folder": {
+      "main": [
+        [
+          {
+            "node": "Google Docs - Write Client Inquiry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brave Web Search": {
+      "ai_tool": [
+        [
+          {
+            "node": "Analyze Discovery Call and Draft Proposal",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true,
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "nodeGroups": [],
+  "tags": []
+}
