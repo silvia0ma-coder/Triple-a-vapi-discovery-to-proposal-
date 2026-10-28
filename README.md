@@ -37,6 +37,8 @@ flowchart LR
 |---|---|
 | `workflows/vapi-discovery-to-proposal.json` | Sanitized n8n workflow (import this) |
 | `docs/SETUP.md` | Full setup guide |
+| `docs/VAPI.md` | Vapi assistant settings and fields the workflow expects |
+| `examples/` | Sample Vapi end-of-call report (fake data) |
 | `docs/ARCHITECTURE.md` | Node-by-node reference and data model |
 | `docs/TROUBLESHOOTING.md` | Common problems and fixes |
 | `scripts/check_sanitized.py` | Local and CI check that no secrets or PII are committed |

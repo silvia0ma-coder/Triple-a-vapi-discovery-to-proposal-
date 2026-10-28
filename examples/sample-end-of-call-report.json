@@ -1,0 +1,48 @@
+{
+  "message": {
+    "type": "end-of-call-report",
+    "endedReason": "customer-ended-call",
+    "call": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "type": "inboundPhoneCall",
+      "customer": { "number": "+15550100" }
+    },
+    "artifact": {
+      "transcript": "AI: Hello, thanks for contacting Your Agency. I'm Roy, the AI Discovery Consultant. What would you like to make easier in your business?\nUser: We run a small courier company. Requests come in by email and WhatsApp and we copy them into a spreadsheet by hand.\nAI: That sounds time-consuming. Which part causes the most trouble?\nUser: Some requests get missed, and customers keep asking for status updates.\nAI: Understood. Which tools does your team use today?\nUser: WhatsApp Business, Gmail and Google Sheets.\nAI: What would you like the process to look like instead?\nUser: One central place for requests, less manual entry, and automatic status updates.\nAI: Could I take a name and the best way to reach you?\nUser: Jane Doe, jane@example.com.\nAI: Thank you for your time. The team will review what you've shared. Have a good day. Goodbye.",
+      "messages": [
+        { "role": "bot", "message": "Hello, thanks for contacting Your Agency. I'm Roy, the AI Discovery Consultant. What would you like to make easier in your business?" },
+        { "role": "user", "message": "We run a small courier company. Requests come in by email and WhatsApp and we copy them into a spreadsheet by hand." }
+      ],
+      "structuredOutputs": {
+        "00000000-0000-4000-8000-0000000000a1": {
+          "name": "Discovery Lead Details",
+          "result": {
+            "customer_name": "Jane Doe",
+            "business_name": "Example Courier Co.",
+            "customer_role": "Operations Manager",
+            "customer_email": "jane@example.com",
+            "customer_phone": "+15550100",
+            "business_need": "Delivery requests arrive through several channels and are copied into a spreadsheet by hand. Some are missed and customers repeatedly ask for status updates.",
+            "current_process": "Staff receive requests by email and WhatsApp, enter them into a spreadsheet and answer status questions manually.",
+            "pain_points": ["Manual data entry", "Missed requests", "Repeated status inquiries"],
+            "business_impact": "Staff time goes on repetitive admin and there is little visibility of outstanding requests.",
+            "desired_outcome": "Centralize incoming requests, reduce manual entry and send timely delivery status updates.",
+            "systems_mentioned": ["WhatsApp Business", "Gmail", "Google Sheets"],
+            "workflow_details": {
+              "trigger": "A new delivery request arrives",
+              "current_steps": ["Receive the request", "Copy details into a spreadsheet", "Process the request", "Answer status inquiries"],
+              "desired_automation": ["Capture request details", "Centralize request tracking", "Send status updates"],
+              "human_approval_required": "To be confirmed"
+            },
+            "success_criteria": ["Requests tracked centrally", "Outstanding requests easy to identify", "Customers receive agreed status updates"],
+            "constraints": [],
+            "budget": "Not provided",
+            "desired_timeframe": "Not provided",
+            "decision_maker": "Not confirmed",
+            "follow_up_consent": "Not confirmed"
+          }
+        }
+      }
+    }
+  }
+}

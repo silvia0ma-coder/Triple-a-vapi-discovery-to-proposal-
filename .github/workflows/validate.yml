@@ -15,3 +15,5 @@ jobs:
           python-version: "3.12"
       - name: Check workflow JSON is sanitized
         run: python3 scripts/check_sanitized.py
+      - name: Check docs, examples and scripts are sanitized
+        run: python3 scripts/check_docs_sanitized.py
